@@ -4,7 +4,7 @@ import Header from '../components/Header'
 
 const HomePage = () => {
     
-    let {user, logoutUser} = useContext(AuthContext)
+    let {user, createRoom} = useContext(AuthContext)
 
     return (
         <div>
@@ -12,8 +12,10 @@ const HomePage = () => {
             <p>You are logged to the home page!</p>
             <p> Hello {user.username} </p>
 
+            <button onClick={createRoom}> Create a Room </button>
         </div>
     )
+    
 
 
 }

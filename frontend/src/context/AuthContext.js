@@ -61,7 +61,7 @@ export const AuthProvider = ({children}) => {
 
 
 
-    // To register a usrer
+    // To register a user
     let registerUser = async (e) => {
         e.preventDefault()
 
@@ -87,6 +87,34 @@ export const AuthProvider = ({children}) => {
         }
 
     }
+    
+       // To create a room
+       let createRoom = async (e) => {
+        e.preventDefault()
+
+        // Make a post request to the api with the user's credentials.
+        let response = await fetch('http://127.0.0.1:8000/api/create-room/', {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+                'Authorization':'Bearer ' + String(authTokens.access)
+            },
+        })
+        // Get the access and refresh tokens
+        console.log('RESPONSE: ', response)
+        let data = await response.json()
+
+        if(response.status === 200){
+            console.log('Room Created: ', data)
+            console.log('Room URL: ', data.url)
+            alert('ROOM CREATED: ', data)
+            history.push('/')
+        }else{
+            console.log('ERROR: ', data)
+            alert('ERROR: ', data)
+        }
+
+    }
 
 
     // Context data for AuthContext so that it can be used in other pages
@@ -96,6 +124,7 @@ export const AuthProvider = ({children}) => {
         loginUser:loginUser,
         logoutUser:logoutUser,
         registerUser:registerUser,
+        createRoom:createRoom
     }
 
 

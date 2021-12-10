@@ -9,10 +9,23 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 from connect.models import User
+from .serializers import RoomSerializer
 
 from django.db import IntegrityError
 from rest_framework import status
 
+
+# Download the helper library from https://www.twilio.com/docs/python/install
+import os
+from decouple import config
+from twilio.rest import Client
+
+
+# Find your Account SID and Auth Token at twilio.com/console
+# and set the environment variables. See http://twil.io/secure
+account_sid = config('TWILIO_ACCOUNT_SID')
+auth_token = config('TWILIO_AUTH_TOKEN')
+client = Client(account_sid, auth_token)
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -65,3 +78,17 @@ def register(request):
         return Response("ERROR: Username already taken", status=status.HTTP_406_NOT_ACCEPTABLE)
     return Response('Registered Successfully from backend')
 
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def createRoom(request):
+
+
+    room = client.video.rooms.create(unique_name='Room1')
+
+    print('ROOM: ', room)
+    print('ROOM-ID: ', room.sid)
+    print('ROOM-URL', room.url)
+    
+    result = RoomSerializer(room)
+    return Response(result.data)
