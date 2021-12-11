@@ -86,7 +86,7 @@
     "test:ci": "cross-env TZ=utc jest --ci --runInBand --reporters=default --reporters=jest-junit --coverage --silent",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run --browser chrome",
-    "cypress:ci": "cross-env CYPRESS_baseUrl=http://localhost:8081 start-server-and-test server http://localhost:8081 cypress:run",
+    "cypress:ci": "cross-env CYPRESS_baseUrl=http://localhost:8000 start-server-and-test server http://localhost:8000 cypress:run",
     "deploy:twilio-cli": "cross-env REACT_APP_SET_AUTH=passcode npm run build && twilio rtc:apps:video:deploy --authentication=passcode --app-directory ./build"
   },
   "eslintConfig": {
@@ -115,7 +115,7 @@
       "pre-commit": "lint-staged"
     }
   },
-  "proxy": "http://localhost:8081/",
+  "proxy": "http://localhost:8000/",
   "jest": {
     "snapshotSerializers": [
       "enzyme-to-json/serializer"

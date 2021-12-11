@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+import os
+from decouple import config
 
 from datetime import timedelta
 from pathlib import Path
@@ -21,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ifo8u$qv@&7z7b%u5&^p$lci6@7a(j^x61p7pw8#zi15v66!&6'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['connect-django-backend.herokuapp.com']
 
 
 # Application definition
@@ -41,9 +43,9 @@ INSTALLED_APPS = [
 
     'connect.apps.ConnectConfig',
 
+    "corsheaders",
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
-    "corsheaders",
 ]
 
 
@@ -86,10 +88,9 @@ SIMPLE_JWT = {
 }
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-
     "corsheaders.middleware.CorsMiddleware",
 
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -166,6 +167,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 # Default primary key field type
@@ -173,5 +175,15 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CORS_ALLOWED_ORIGINS = [
+    "https://connect-meeting.vercel.app",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:8000",
+]
 
-CORS_ALLOW_ALL_ORIGINS = True
+#https://github.com/heroku/django-heroku/issues/39
+#django_heroku.settings(locals())
+if 'I_AM_HEROKU' in os.environ:
+    import django_heroku
+    django_heroku.settings(locals())

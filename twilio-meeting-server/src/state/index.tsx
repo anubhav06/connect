@@ -67,9 +67,9 @@ export default function AppStateProvider(props: React.PropsWithChildren<{}>) {
     contextValue = {
       ...contextValue,
       getToken: async (user_identity, room_name) => {
-        const endpoint = process.env.REACT_APP_TOKEN_ENDPOINT || '/token';
+        const endpoint = process.env.REACT_APP_TOKEN_ENDPOINT || '/api/twilio/token';
 
-        return fetch(endpoint, {
+        let response = await fetch(endpoint, {
           method: 'POST',
           headers: {
             'content-type': 'application/json',
@@ -79,7 +79,14 @@ export default function AppStateProvider(props: React.PropsWithChildren<{}>) {
             room_name,
             create_conversation: process.env.REACT_APP_DISABLE_TWILIO_CONVERSATIONS !== 'true',
           }),
-        }).then(res => res.json());
+        });
+        console.log('Response: ', response);
+        let data = await response.json();
+        let format: any = { token: data };
+
+        console.log('Data: ', data);
+        console.log('Format: ', format);
+        return format;
       },
       updateRecordingRules: async (room_sid, rules) => {
         const endpoint = process.env.REACT_APP_TOKEN_ENDPOINT || '/recordingrules';

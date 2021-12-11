@@ -1,6 +1,10 @@
 from rest_framework import serializers
 
 
+
+class TokenSerializer(serializers.Serializer):
+   user_identity = serializers.CharField()
+
 class RoomSerializer(serializers.Serializer):
    """Your data serializer, define your fields here."""
    account_sid = serializers.CharField()

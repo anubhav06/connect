@@ -22,7 +22,7 @@ export default function useFirebaseAuth() {
       headers.set('Authorization', idToken);
       headers.set('content-type', 'application/json');
 
-      const endpoint = process.env.REACT_APP_TOKEN_ENDPOINT || '/token';
+      const endpoint = process.env.REACT_APP_TOKEN_ENDPOINT || '/api/twilio/token';
 
       return fetch(endpoint, {
         method: 'POST',
