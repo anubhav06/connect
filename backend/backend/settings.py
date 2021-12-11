@@ -28,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = ['connect-django-backend.herokuapp.com']
+ALLOWED_HOSTS = ['connect-django-backend.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
