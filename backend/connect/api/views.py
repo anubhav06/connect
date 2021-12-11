@@ -1,3 +1,4 @@
+from django.db.utils import Error
 from django.http import JsonResponse
 from rest_framework import permissions, serializers
 from rest_framework.response import Response
@@ -7,11 +8,14 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import TokenSerializer
-from connect.models import User
+from .serializers import FilesSerializer
+from connect.models import User, Files
 
 from django.db import IntegrityError
 from rest_framework import status
+
+import boto3
+import boto3.session
 
 
 # Download the helper library from https://www.twilio.com/docs/python/install
@@ -84,6 +88,7 @@ def register(request):
 
 
 
+# FOR TWILIO MEETING
 @api_view(['POST'])
 def twilioToken(request):
     
@@ -103,3 +108,32 @@ def twilioToken(request):
     token = str(token.to_jwt())
 
     return Response(token)
+
+
+
+
+
+# To upload audio file 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def uploadAudio(request):
+    
+    audioFile = request.data["audio"]
+    print('AUDIO FILE: ', audioFile)
+    try:
+        data = Files(user=request.user, audioFile=audioFile)
+        data.save()
+    except Error:
+        return Response('Error while uploading files !')
+
+    
+    return Response('✅ Audio upload successfull')
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getAudio(request):
+    
+    audioFiles = Files.objects.filter(user=request.user)
+    serializer = FilesSerializer(audioFiles, many=True)
+    return Response(serializer.data)

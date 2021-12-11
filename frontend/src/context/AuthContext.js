@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from 'react'
 import jwt_decode from "jwt-decode";
 import { useHistory } from 'react-router-dom'
+import axios from "axios";
 
 const AuthContext = createContext()
 
@@ -89,6 +90,30 @@ export const AuthProvider = ({children}) => {
     }
     
       
+    // To add a new food item
+    let uploadAudio = async (e) => {
+        e.preventDefault()
+
+        // Reference: https://medium.com/@emeruchecole9/uploading-images-to-rest-api-backend-in-react-js-b931376b5833
+        let form_data = new FormData();
+        form_data.append('audio', e.target.audio.files[0]);
+        form_data.append('name', e.target.name.value);
+
+        let url = 'http://127.0.0.1:8000/api/upload-audio/';
+        axios.post(url, form_data, {
+        headers: {
+            'content-type': 'multipart/form-data',
+            'Authorization':'Bearer ' + String(authTokens.access)
+        }
+        })
+        .then(res => {
+          alert('SUCCESS: ', res.data);
+          history.push('/')
+        })
+        .catch(err => alert('ERROR: ', err))
+        
+    }
+
 
     // Context data for AuthContext so that it can be used in other pages
     let contextData = {
@@ -97,6 +122,7 @@ export const AuthProvider = ({children}) => {
         loginUser:loginUser,
         logoutUser:logoutUser,
         registerUser:registerUser,
+        uploadAudio:uploadAudio,
     }
 
 
