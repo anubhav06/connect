@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
   let loginUser = async (e) => {
     e.preventDefault();
     // Make a post request to the api with the user's credentials.
-    let response = await fetch("http://127.0.0.1:8000/api/token/", {
+    let response = await fetch("https://connect-django-backend.herokuapp.com/api/token/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -72,7 +72,7 @@ export const AuthProvider = ({ children }) => {
     e.preventDefault();
 
     // Make a post request to the api with the user's credentials.
-    let response = await fetch("http://127.0.0.1:8000/api/register/", {
+    let response = await fetch("https://connect-django-backend.herokuapp.com/api/register/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -107,7 +107,7 @@ export const AuthProvider = ({ children }) => {
     form_data.append("audio", e.target.audio.files[0]);
     form_data.append("video", e.target.video.files[0]);
 
-    let url = "http://127.0.0.1:8000/api/upload-file/";
+    let url = "https://connect-django-backend.herokuapp.com/api/upload-file/";
     setIsFileUploading(true);
     axios
       .post(url, form_data, {
@@ -146,7 +146,7 @@ export const AuthProvider = ({ children }) => {
         return;
       }
       // Make a post request to the api with the refresh token to update the access token
-      let response = await fetch("http://127.0.0.1:8000/api/token/refresh/", {
+      let response = await fetch("https://connect-django-backend.herokuapp.com/api/token/refresh/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

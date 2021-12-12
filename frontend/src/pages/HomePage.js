@@ -21,7 +21,7 @@ const HomePage = () => {
 
   useEffect(() => {
     let getFiles = async () => {
-      let response = await fetch("http://127.0.0.1:8000/api/get-file/", {
+      let response = await fetch("https://connect-django-backend.herokuapp.com/api/get-file/", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -40,7 +40,7 @@ const HomePage = () => {
     };
 
     let getSymblToken = async () => {
-      let response = await fetch("http://127.0.0.1:8000/api/symbl/token/", {
+      let response = await fetch("https://connect-django-backend.herokuapp.com/api/symbl/token/", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
