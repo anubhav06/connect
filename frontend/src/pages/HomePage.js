@@ -17,6 +17,7 @@ const HomePage = () => {
   const [showURL, setShowURL] = useState(false);
 
   let [symblToken, setToken] = useState([]);
+  const [accessToken, setAccessToken] = useState();
 
   useEffect(() => {
     let getFiles = async () => {
@@ -50,8 +51,10 @@ const HomePage = () => {
 
       console.log("Response: ", response);
       let data = await response.json();
-      console.log("DATA: ", data);
-      console.log("DATA0: ", data["accessToken"]);
+      //   console.log("DATA: ", data);
+      const accessToken = JSON.parse(data.join(""));
+      setAccessToken(accessToken);
+      //   console.log("DATA0: ", data[0]);
 
       if (response.status === 200) {
         setToken(data);
@@ -71,6 +74,79 @@ const HomePage = () => {
 
   const handleAudioURL = (e) => {
     e.preventDefault();
+    console.log(accessToken.accessToken);
+    const authToken = accessToken.accessToken;
+
+    const payload = {
+      url: audioURL,
+      name: "Godly Stuff",
+      confidenceThreshold: 0.6,
+    };
+
+    const responses = {
+      400: "Bad Request! Please refer docs for correct input fields.",
+      401: "Unauthorized. Please generate a new access token.",
+      404: "The conversation and/or it's metadata you asked could not be found, please check the input provided",
+      429: "Maximum number of concurrent jobs reached. Please wait for some requests to complete.",
+      500: "Something went wrong! Please contact support@symbl.ai",
+    };
+
+    const fetchData = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    };
+
+    fetch("https://api.symbl.ai/v1/process/audio/url", fetchData)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error(responses[response.status]);
+        }
+      })
+      .then((response) => {
+        console.log("response", response);
+        // from here
+        const conversationId = response.conversationId;
+        const authToken = accessToken.accessToken;
+        const url = `https://api.symbl.ai/v1/conversations/${conversationId}/topics`;
+
+        // Set headers
+        let headers = new Headers();
+        headers.append("Authorization", `Bearer ${authToken}`);
+
+        const data = {
+          method: "GET",
+          headers: headers,
+        };
+
+        // https://developer.mozilla.org/en-US/docs/Web/API/Request
+        const request = new Request(url, data);
+
+        fetch(request)
+          .then((response) => {
+            console.log("response", response);
+            if (response.status === 200) {
+              return response.json();
+            } else {
+              throw new Error("Something went wrong on api server!");
+            }
+          })
+          .then((response) => {
+            console.log("Success");
+            console.log(response);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
