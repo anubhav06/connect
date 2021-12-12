@@ -1,0 +1,123 @@
+.rooms {
+  display: flex;
+  justify-content: center;
+  margin-top: 30vh;
+  margin-left: 300px;
+}
+
+.btn-room {
+  background-color: hsl(154, 59%, 51%);
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 24px;
+  margin: 8px;
+  cursor: pointer;
+  transition: 300ms ease-in-out;
+}
+
+.btn-room:hover {
+  transform: scale(1.1);
+}
+
+.upload-file {
+  margin-top: 20vh;
+  margin-left: 300px;
+}
+
+form h2 {
+  text-align: center;
+  font-family: var(--poppins);
+  color: var(--darkBlue);
+  padding-top: 20px;
+}
+
+.files {
+  margin: auto;
+  padding: 12px;
+  border-radius: 12px;
+  width: 60%;
+  background-color: white;
+  margin-left: 450px;
+}
+
+.files > h2 {
+  font-family: var(--poppins);
+  text-align: center;
+  color: var(--darkBlue);
+  margin-bottom: 50px;
+}
+
+.files > h3 {
+  font-family: var(--poppins);
+  color: var(--darkBlue);
+  margin-bottom: 0;
+}
+
+.files > p {
+  background-color: #f3f3f3;
+  padding: 4px;
+  border-radius: 8px;
+  color: var(--blue);
+}
+
+.copy {
+  background-color: var(--green);
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12px;
+  width: 4%;
+  margin-left: auto;
+  padding: 6px;
+  color: white;
+  font-family: var(--poppins);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.user-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px;
+  margin-top: 10px;
+}
+
+.user-btn > p {
+  font-family: var(--poppins);
+  margin-right: 8px;
+  color: white;
+  font-weight: 700;
+}
+
+.sidebar {
+  width: 20%;
+  height: 100vh;
+  position: absolute;
+  background-color: hsl(0, 94%, 69%);
+  top: 0;
+  left: 0;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.btn-sidebar-container {
+  margin-top: 150px;
+}
+
+.btn-sidebar {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px;
+  font-family: var(--poppins);
+  color: var(--blue);
+  border-top: 2px solid gray;
+  border-bottom: 2px solid gray;
+  cursor: pointer;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  font-weight: 700;
+  font-size: 24px;
+  background-color: white;
+}

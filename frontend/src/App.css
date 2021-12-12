@@ -1,0 +1,25 @@
+:root {
+  /* primary */
+  --red: hsl(0, 100%, 74%);
+  --green: hsl(154, 59%, 51%);
+
+  /* accent */
+  --blue: hsl(248, 32%, 49%);
+
+  /* neutral */
+  --darkBlue: hsl(249, 10%, 26%);
+  --grayishBlue: hsl(246, 25%, 77%);
+
+  /* font */
+  --poppins: "Poppins", sans-serif;
+}
+
+body {
+  /* background-color: var(--red); */
+  background-color: #f3f3f3;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}

@@ -1,3 +1,4 @@
+from os import name
 from django.urls import path
 from . import views
 from .views import MyTokenObtainPairView
@@ -10,6 +11,11 @@ from rest_framework_simplejwt.views import (
 urlpatterns = [
     path('', views.getRoutes),
     path('register/', views.register, name="register"),
+
+    path('upload-file/', views.uploadFile, name="uploadFile"),
+    path('get-file/', views.getFile, name="getFile"),
+
+    path('symbl/token/', views.symblToken, name="symblToken"),
 
     path('twilio/token/', views.twilioToken, name="twilioToken"),
     
