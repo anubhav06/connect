@@ -6,16 +6,14 @@ import { Link } from 'react-router-dom'
 
 const HomePage = () => {
     
-    let {user, uploadAudio} = useContext(AuthContext)
-    let [audioFiles, setAudioFiles] = useState([])
-    let [authTokens, setAuthTokens] = useState(()=> localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
+    let {user, uploadFile, authTokens} = useContext(AuthContext)
+    let [files, setFiles] = useState([])
 
-     // call getNotes on load
+
      useEffect(()=> {
         
-        // To fetch the notes of a user
-        let getAudioFiles = async() =>{
-            let response = await fetch('http://127.0.0.1:8000/api/get-audio/', {
+        let getFiles = async() =>{
+            let response = await fetch('http://127.0.0.1:8000/api/get-file/', {
                 method:'GET',
                 headers:{
                     'Content-Type':'application/json',
@@ -27,14 +25,14 @@ const HomePage = () => {
             console.log('DATA: ',data)
 
             if(response.status === 200){
-                setAudioFiles(data)
+                setFiles(data)
             }else{
                 alert('ERROR: ', data)
             }
             
         }
 
-        getAudioFiles()
+        getFiles()
 
     }, [])
 
@@ -48,17 +46,19 @@ const HomePage = () => {
             <Link to={{ pathname: "https://connect-meeting.vercel.app/" }} target="_blank" > <button>Join a room</button> </Link>
         
             <div>
-                <form onSubmit={uploadAudio}>
-                    <input type="file" accept="audio/*" name="audio"/> <br/>
+                <form onSubmit={uploadFile}>
+                    <input type="file" accept="audio/*" name="audio"/> <br/><br/>
+                    <input type="file" accept="video/*" name="video"/> <br/><br/>
                     <input type="submit"/>
                 </form>
             </div>
             <br/><br/>
 
             <ul>
-                {audioFiles.map(audio => (   
-                        <li key={audio.id} >
-                            {audio.audioFile} <br/><br/><br/>
+                {files.map(file => (   
+                        <li key={file.id} >
+                            Audio File: {file.audioFile} <br/><br/><br/>
+                            Video File: {file.videoFile} <br/><br/><br/>
                         </li>  
                 ))}
             </ul>

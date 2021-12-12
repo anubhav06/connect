@@ -12,8 +12,8 @@ urlpatterns = [
     path('', views.getRoutes),
     path('register/', views.register, name="register"),
 
-    path('upload-audio/', views.uploadAudio, name="uploadAudio"),
-    path('get-audio/', views.getAudio, name="getAudio"),
+    path('upload-file/', views.uploadFile, name="uploadFile"),
+    path('get-file/', views.getFile, name="getFile"),
 
     path('twilio/token/', views.twilioToken, name="twilioToken"),
     

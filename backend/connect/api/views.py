@@ -116,24 +116,37 @@ def twilioToken(request):
 # To upload audio file 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def uploadAudio(request):
+def uploadFile(request):
     
-    audioFile = request.data["audio"]
-    print('AUDIO FILE: ', audioFile)
     try:
+        audioFile = request.data["audio"]
         data = Files(user=request.user, audioFile=audioFile)
         data.save()
-    except Error:
-        return Response('Error while uploading files !')
+    except KeyError:
+        audioFile = None
+        print('Audio null')
+
+    try:
+        videoFile = request.data["video"]
+        data = Files(user=request.user, videoFile=videoFile)
+        data.save()
+        print('Video not null')
+    except KeyError:
+        videoFile = None
+        print('Video null')
+
+
+    print('AUDIO FILE: ', audioFile)
+    print('VIDEO FILE: ', videoFile)
 
     
-    return Response('✅ Audio upload successfull')
+    return Response('✅ File upload successfull')
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def getAudio(request):
+def getFile(request):
     
-    audioFiles = Files.objects.filter(user=request.user)
-    serializer = FilesSerializer(audioFiles, many=True)
+    files = Files.objects.filter(user=request.user)
+    serializer = FilesSerializer(files, many=True)
     return Response(serializer.data)

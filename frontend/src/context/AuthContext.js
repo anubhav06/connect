@@ -91,15 +91,15 @@ export const AuthProvider = ({children}) => {
     
       
     // To add a new food item
-    let uploadAudio = async (e) => {
+    let uploadFile = async (e) => {
         e.preventDefault()
 
         // Reference: https://medium.com/@emeruchecole9/uploading-images-to-rest-api-backend-in-react-js-b931376b5833
         let form_data = new FormData();
         form_data.append('audio', e.target.audio.files[0]);
-        form_data.append('name', e.target.name.value);
+        form_data.append('video', e.target.video.files[0]);
 
-        let url = 'http://127.0.0.1:8000/api/upload-audio/';
+        let url = 'http://127.0.0.1:8000/api/upload-file/';
         axios.post(url, form_data, {
         headers: {
             'content-type': 'multipart/form-data',
@@ -122,7 +122,7 @@ export const AuthProvider = ({children}) => {
         loginUser:loginUser,
         logoutUser:logoutUser,
         registerUser:registerUser,
-        uploadAudio:uploadAudio,
+        uploadFile:uploadFile,
     }
 
 
