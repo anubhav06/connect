@@ -16,6 +16,8 @@ const HomePage = () => {
   const [showFileUpload, setShowFileUpload] = useState(false);
   const [showURL, setShowURL] = useState(false);
 
+  let [symblToken, setToken] = useState([]);
+
   useEffect(() => {
     let getFiles = async () => {
       let response = await fetch("http://127.0.0.1:8000/api/get-file/", {
@@ -36,6 +38,30 @@ const HomePage = () => {
       }
     };
 
+    let getSymblToken = async () => {
+      let response = await fetch("http://127.0.0.1:8000/api/symbl/token/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          // Provide the authToken when making API request to backend to access the protected route of that user
+          Authorization: "Bearer " + String(authTokens.access),
+        },
+      });
+
+      console.log("Response: ", response);
+      let data = await response.json();
+      console.log("DATA: ", data);
+      console.log("DATA0: ", data["accessToken"]);
+
+      if (response.status === 200) {
+        setToken(data);
+        console.log("Symbl token:", symblToken);
+      } else {
+        alert("ERROR: ", data);
+      }
+    };
+
+    getSymblToken();
     getFiles();
   }, [showURL]);
 
@@ -122,6 +148,8 @@ const HomePage = () => {
             <input type="file" accept="video/*" name="video" />
             <input className="btn-submit" type="submit" />
           </form>
+          {/* SYMBL ACCESS TOKEN: {symblToken['accessToken']}
+            SYMBL TOKEN EXPIRES IN: {symblToken.expiresIn} */}
         </div>
       )}
 

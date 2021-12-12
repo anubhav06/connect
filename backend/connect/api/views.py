@@ -8,12 +8,15 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
+
 from .serializers import FilesSerializer
 from connect.models import User, Files
 
 from django.db import IntegrityError
 from rest_framework import status
 
+import requests
+import json
 import boto3
 import boto3.session
 
@@ -23,6 +26,10 @@ import os
 from decouple import config
 from twilio.jwt.access_token import AccessToken
 from twilio.jwt.access_token.grants import VideoGrant
+
+
+# For download YT video
+from pytube import YouTube
 
 
 # Required for all Twilio Access Tokens
@@ -118,27 +125,23 @@ def twilioToken(request):
 @permission_classes([IsAuthenticated])
 def uploadFile(request):
     
-    try:
+
+    if request.data["audio"] == 'undefined':
+        print('Audio undefined')
+    else:
         audioFile = request.data["audio"]
         data = Files(user=request.user, audioFile=audioFile)
         data.save()
-    except KeyError:
-        audioFile = None
-        print('Audio null')
+        print('Audio present')
 
-    try:
+    
+    if request.data["video"] == 'undefined':
+        print('video undefined')
+    else:
         videoFile = request.data["video"]
         data = Files(user=request.user, videoFile=videoFile)
         data.save()
-        print('Video not null')
-    except KeyError:
-        videoFile = None
-        print('Video null')
-
-
-    print('AUDIO FILE: ', audioFile)
-    print('VIDEO FILE: ', videoFile)
-
+        print('video present')
     
     return Response('✅ File upload successfull')
 
@@ -150,3 +153,46 @@ def getFile(request):
     files = Files.objects.filter(user=request.user)
     serializer = FilesSerializer(files, many=True)
     return Response(serializer.data)
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def symblToken(request):
+
+    url = "https://api.symbl.ai/oauth2/token:generate"
+
+    appId = config('SYMBL_APP_ID')  # App Id found in your platform
+    appSecret = config('SYMBL_APP_SECRET')  # App Id found in your platform
+
+    payload = {
+        "type": "application",
+        "appId": appId,
+        "appSecret": appSecret
+    }
+    headers = {
+        'Content-Type': 'application/json'
+    }
+
+    responses = {
+        400: 'Bad Request! Please refer docs for correct input fields.',
+        401: 'Unauthorized. Please generate a new access token.',
+        404: 'The conversation and/or it\'s metadata you asked could not be found, please check the input provided',
+        429: 'Maximum number of concurrent jobs reached. Please wait for some requests to complete.',
+        500: 'Something went wrong! Please contact support@symbl.ai'
+    }
+
+    response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
+
+    if response.status_code == 200:
+        # Successful API execution
+        print("accessToken => " + response.json()['accessToken'])  # accessToken of the user
+        print("expiresIn => " + str(response.json()['expiresIn']))  # Expiry time in accessToken
+    elif response.status_code in responses.keys():
+        print(responses[response.status_code], response.text)  # Expected error occurred
+    else:
+        print("Unexpected error occurred. Please contact support@symbl.ai" + ", Debug Message => " + str(response.text))
+
+
+    return Response(response)
+
