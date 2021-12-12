@@ -11,7 +11,6 @@ A job application portal where recruiters/applicants can connect using our video
 4. `python manage.py migrate` to apply the migrations
 5. `python manage.py runserver` to start the server
 
-
 #### Installing `frontend`
 1. `cd frontend`
 2. Install [NodeJs](https://nodejs.org/en/download/) if you haven't
@@ -28,7 +27,16 @@ A job application portal where recruiters/applicants can connect using our video
 This is open to contribution, follow the installation section to get started with installation. <br>
 Feel free to create an issue !
 
+## Inspiration
+Giving/Taking interviews is a hectic process. Every company uses different software for meeting. After that comes the closing screen, which makes us anxious as to how the interview went.
+Here comes [Connect](https://connect-online.vercel.app/), the *unified job portal*, where you can conduct meetings from our services. Afterwards, you can also get *insights and analytics* about how your interview went, from our services.
+<br>
+<img src="/.github/github3.png" height="350px">
 
+## What it does
+It's a unified job portal. Recruiters/applicants can use the meeting service we provide as the one stop meeting software provider. The meeting service is no less than other software like MS Teams, Google Meet, Zoom, etc. It provides mute/unmute audio, open/close camera, screenshare, customized background and many more things.
+After giving the interview, you can get analytics and insights of your conversation. Just upload the audio/video file, and our services will provide you with the insights.<br>
+<img src="/.github/github2.png" height="350px">
 
 ## How we built it
 The backend was built using Django. The meeting service was built using the Twilio API. The conversation analytics service was built using Symbl.ai
