@@ -1,0 +1,31 @@
+.header {
+  width: 50%;
+  margin: 40px auto 0 auto;
+  /* display: flex; */
+  justify-content: flex-end;
+  /* background-color: greenyellow; */
+}
+
+.logo {
+  text-align: center;
+  font-family: var(--poppins);
+  font-size: 56px;
+}
+
+.links {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-link {
+  background-color: var(--blue);
+  font-family: var(--poppins);
+  padding: 10px;
+  margin-right: 8px;
+  border-radius: 6px;
+  transition: 300ms ease-in-out;
+}
+
+.btn-link:hover {
+  transform: scale(1.1);
+}
