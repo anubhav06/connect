@@ -15,6 +15,8 @@ urlpatterns = [
     path('upload-file/', views.uploadFile, name="uploadFile"),
     path('get-file/', views.getFile, name="getFile"),
 
+    path('symbl/token/', views.symblToken, name="symblToken"),
+
     path('twilio/token/', views.twilioToken, name="twilioToken"),
     
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),

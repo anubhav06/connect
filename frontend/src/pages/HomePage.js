@@ -8,7 +8,8 @@ const HomePage = () => {
     
     let {user, uploadFile, authTokens} = useContext(AuthContext)
     let [files, setFiles] = useState([])
-
+    let [symblToken, setToken] = useState([])
+    
 
      useEffect(()=> {
         
@@ -32,6 +33,31 @@ const HomePage = () => {
             
         }
 
+        let getSymblToken = async() =>{
+            let response = await fetch('http://127.0.0.1:8000/api/symbl/token/', {
+                method:'GET',
+                headers:{
+                    'Content-Type':'application/json',
+                    // Provide the authToken when making API request to backend to access the protected route of that user
+                    'Authorization':'Bearer ' + String(authTokens.access)
+                }
+            })
+
+            console.log('Response: ', response)
+            let data = await response.json()
+            console.log('DATA: ',data)
+            console.log('DATA0: ',data['accessToken'])
+
+            if(response.status === 200){
+                setToken(data)
+                console.log('Symbl token:', symblToken)
+            }else{
+                alert('ERROR: ', data)
+            }
+            
+        }
+
+        getSymblToken()
         getFiles()
 
     }, [])
@@ -52,7 +78,8 @@ const HomePage = () => {
                     <input type="submit"/>
                 </form>
             </div>
-            <br/><br/>
+            <br/><br/><br/><br/>
+
 
             <ul>
                 {files.map(file => (   
@@ -62,6 +89,9 @@ const HomePage = () => {
                         </li>  
                 ))}
             </ul>
+
+            SYMBL ACCESS TOKEN: {symblToken['accessToken']}
+            SYMBL TOKEN EXPIRES IN: {symblToken.expiresIn}
 
         </div>
     )
