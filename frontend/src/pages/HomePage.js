@@ -172,7 +172,7 @@ const HomePage = () => {
               setShowFileUpload(false);
             }}
           >
-            Create Rooms
+            Rooms
           </button>
           <button
             className="btn-sidebar"
@@ -192,7 +192,7 @@ const HomePage = () => {
               setShowFileUpload(false);
             }}
           >
-            Use Symbal
+            Use Symbl
           </button>
         </div>
       </div>

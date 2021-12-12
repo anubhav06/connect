@@ -8,11 +8,7 @@ const Header = () => {
   let { user, logoutUser } = useContext(AuthContext);
   return (
     <div className="header">
-      {!user && (
-        <h1 className="logo">
-          <Link to="/">Connect</Link>
-        </h1>
-      )}
+      {!user && <h1 className="logo">Connect</h1>}
 
       <div className="links">
         {/* <span> | </span> */}
